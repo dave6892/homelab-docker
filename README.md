@@ -28,6 +28,7 @@ Deploy these stacks in the following order to ensure networks and dependencies a
 - **Compose path:** `app/pihole/docker-compose.yml`
 - **Environment Variables:**
   - `WEBPASSWORD`: (Set your desired Pi-hole admin password)
+  - `SERVER_IP`: (Your Proxmox Server LAN IP, e.g., `192.168.1.50`)
 
 ### 3. App Stacks
 *The actual applications.*
@@ -61,3 +62,32 @@ Deploy these stacks in the following order to ensure networks and dependencies a
 
 ### 2. Update Your Router / Devices
 Point your router's DNS settings to `<YOUR_SERVER_IP>` to enable ad-blocking and local domain resolution for your entire network.
+
+## Troubleshooting
+
+### Port 53 Conflict (Pi-hole)
+If Portainer says "port 53 is already used", something on your host is listening on that port.
+
+**Step 1: Identify the culprit**
+Run this command on your Proxmox server:
+```bash
+sudo ss -tulpn | grep :53
+# OR
+sudo lsof -i :53
+```
+
+**Step 2: Common Fixes**
+
+**Scenario A: `systemd-resolved` (Ubuntu/Standard Debian)**
+1.  Edit `/etc/systemd/resolved.conf` and set `DNSStubListener=no`.
+2.  Restart: `sudo systemctl restart systemd-resolved`.
+
+**Scenario B: `dnsmasq` (Libvirt/LXC)**
+If `dnsmasq` is running, it might be used by Proxmox for LXC containers.
+-   **Fix:** You might need to bind Pi-hole to a specific IP (e.g., your LAN IP) instead of `0.0.0.0`.
+-   **Edit `app/pihole/docker-compose.yml`**:
+    ```yaml
+    ports:
+      - "192.168.1.50:53:53/tcp"  # Replace with your Server IP
+      - "192.168.1.50:53:53/udp"
+    ```
