@@ -1,0 +1,32 @@
+---
+# For configuration options and examples, please see:
+# https://gethomepage.dev/configs/services/
+
+- Media:
+    - Plex:
+        icon: plex.png
+        href: ${PLEX_SERVER_URL}
+        description: Watch movies and TV shows.
+        server: localhost
+        container: plex
+        widgets: #TODO: fix the widgets
+        - type: tautulli
+          url: ${TAUTULLI_SERVER_URL}
+          key: ${TAUTULLI_API_KEY}
+        - type: uptimekuma
+          url: ${UPTIMEKUMA_SERVER_URL}
+          slug: ${UPTIMEKUMA_SLUG}
+
+- Server:
+    - Proxmox:
+        href: ${PROXMOX_SERVER_URL}
+        description: Homepage is the best
+
+    - TrueNAS:
+        href: ${TRUENAS_SERVER_URL}
+        description: Homepage is the best
+
+    - Unraid:
+        href: ${UNRAID_SERVER_URL}
+        description: Homepage is the best
+
