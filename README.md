@@ -1,68 +1,63 @@
-# Homelab Docker
+# Homelab Docker (GitOps Ready)
 
-A Docker-based homelab setup featuring a dashboard, media server, and reverse proxy.
+A Docker-based homelab setup featuring a dashboard, media server, local DNS, and reverse proxy. Designed to be deployed via **Portainer Stacks** (GitOps).
 
 ## Architecture
 
-This project uses **Traefik** as a reverse proxy to route traffic to various services using local domain names. All services are connected via a dedicated `homelab` Docker network.
+- **Traefik**: Reverse proxy and load balancer (Port 80/443).
+- **Pi-hole**: Local DNS and Ad-blocking (Port 53).
+- **Apps**: Homepage, Plex, Tautulli (Internal ports only).
 
-### Services
+## Deployment via Portainer
 
-| Service | Internal Port | Local Domain | Description |
-|---------|---------------|--------------|-------------|
-| **Traefik** | 80, 8080 | `localhost:8080` | Reverse proxy and load balancer |
-| **Homepage** | 3000 | `homepage.local` | Main dashboard |
-| **Plex** | 32400 | `plex.local` | Media server |
-| **Tautulli** | 8181 | `tautulli.local` | Plex monitoring and tracking |
+Deploy these stacks in the following order to ensure networks and dependencies are ready.
 
-## Getting Started
+### 1. Proxy Stack
+*This stack creates the shared `homelab` network.*
 
-### Prerequisites
-- Docker and Docker Compose installed
-- `sudo` access for editing `/etc/hosts`
+- **Name:** `proxy`
+- **Repository URL:** `https://github.com/dave6892/homelab-docker`
+- **Compose path:** `docker-compose.yml`
+- **Environment Variables:** None needed.
 
-### Installation
+### 2. DNS Stack
+*Provides local DNS resolution.*
 
-1. **Create the Network**
-   ```bash
-   docker network create homelab
-   ```
+- **Name:** `dns`
+- **Repository URL:** `https://github.com/dave6892/homelab-docker`
+- **Compose path:** `app/pihole/docker-compose.yml`
+- **Environment Variables:**
+  - `WEBPASSWORD`: (Set your desired Pi-hole admin password)
 
-2. **Start the Proxy**
-   Start Traefik first to handle routing:
-   ```bash
-   docker-compose up -d
-   ```
+### 3. App Stacks
+*The actual applications.*
 
-3. **Start Applications**
-   Start the application stacks:
-   ```bash
-   # Start Homepage
-   cd app/homepage
-   docker-compose up -d
+#### Homepage
+- **Name:** `homepage`
+- **Repository URL:** `https://github.com/dave6892/homelab-docker`
+- **Compose path:** `app/homepage/docker-compose.yml`
+- **Environment Variables:**
+  - `PLEX_SERVER_URL`: `http://plex.local`
+  - `TAUTULLI_SERVER_URL`: `http://tautulli.local`
 
-   # Start Media Stack (Plex, Tautulli)
-   cd ../media
-   docker-compose up -d
-   ```
+#### Media
+- **Name:** `media`
+- **Repository URL:** `https://github.com/dave6892/homelab-docker`
+- **Compose path:** `app/media/docker-compose.yml`
+- **Environment Variables:**
+  - `NFS_VOLUME_PATH`: (Path to your media on the server, e.g., `/mnt/data/media`)
 
-4. **Configure Local DNS**
-   To access services via their `.local` domains, add them to your `/etc/hosts` file:
-   ```bash
-   echo "127.0.0.1 homepage.local plex.local tautulli.local" | sudo tee -a /etc/hosts
-   ```
+## Post-Deployment Configuration
 
-5. **Access Services**
-   - Dashboard: [http://homepage.local](http://homepage.local)
-   - Plex: [http://plex.local](http://plex.local)
-   - Tautulli: [http://tautulli.local](http://tautulli.local)
-   - Traefik Dashboard: [http://localhost:8080](http://localhost:8080)
+### 1. Configure Pi-hole DNS Records
+1.  Go to `http://<SERVER_IP>:8080` (Traefik) to verify routing, or `http://<SERVER_IP>/admin` (if Pi-hole port 80 is exposed directly, but we are using Traefik).
+2.  Actually, access Pi-hole via: `http://pihole.local` (You might need to map it in your hosts file temporarily or use the server IP).
+3.  **Navigate to:** Local DNS -> DNS Records.
+4.  **Add Records:**
+    -   `homepage.local` -> `<YOUR_SERVER_IP>`
+    -   `plex.local` -> `<YOUR_SERVER_IP>`
+    -   `tautulli.local` -> `<YOUR_SERVER_IP>`
+    -   `pihole.local` -> `<YOUR_SERVER_IP>`
 
-## Configuration
-
-### Environment Variables
-Check `app/homepage/.env` to configure service URLs for the dashboard:
-```bash
-PLEX_SERVER_URL=http://plex.local
-TAUTULLI_SERVER_URL=http://tautulli.local
-```
+### 2. Update Your Router / Devices
+Point your router's DNS settings to `<YOUR_SERVER_IP>` to enable ad-blocking and local domain resolution for your entire network.

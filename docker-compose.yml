@@ -12,10 +12,12 @@ services:
       - "8080:8080" # Traefik dashboard
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ./letsencrypt:/letsencrypt
     restart: unless-stopped
     networks:
       - homelab
 
 networks:
   homelab:
-    external: true
+    name: homelab
+    driver: bridge
