@@ -6,11 +6,22 @@ services:
       - PUID=1000
       - PGID=1000
       - TZ=America/Toronto
-      - HOMEPAGE_ALLOWED_HOSTS=localhost:3001
+      - HOMEPAGE_ALLOWED_HOSTS=homepage.local
     env_file:
       - .env
     volumes:
       - ./config/homepage:/config
-    ports:
-      - 3001:3000
+    expose:
+      - 3000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.homepage.rule=Host(`homepage.local`)"
+      - "traefik.http.routers.homepage.entrypoints=web"
+      - "traefik.http.services.homepage.loadbalancer.server.port=3000"
+    networks:
+      - homelab
     restart: unless-stopped
+
+networks:
+  homelab:
+    external: true

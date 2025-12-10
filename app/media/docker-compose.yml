@@ -10,8 +10,15 @@ services:
     volumes:
       - ./config/plex:/config
       - ${NFS_VOLUME_PATH}:/media
-    ports:
-      - 32400:32400
+    expose:
+      - 32400
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.plex.rule=Host(`plex.local`)"
+      - "traefik.http.routers.plex.entrypoints=web"
+      - "traefik.http.services.plex.loadbalancer.server.port=32400"
+    networks:
+      - homelab
     restart: unless-stopped
 
   tautulli:
@@ -25,6 +32,17 @@ services:
       - TZ=America/Toronto
     volumes:
       - ./config/tautulli:/config
-    ports:
-      - 8181:8181
+    expose:
+      - 8181
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.tautulli.rule=Host(`tautulli.local`)"
+      - "traefik.http.routers.tautulli.entrypoints=web"
+      - "traefik.http.services.tautulli.loadbalancer.server.port=8181"
+    networks:
+      - homelab
     restart: unless-stopped
+
+networks:
+  homelab:
+    external: true
