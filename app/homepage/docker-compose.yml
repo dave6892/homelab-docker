@@ -7,8 +7,6 @@ services:
       - PGID=1000
       - TZ=America/Toronto
       - HOMEPAGE_ALLOWED_HOSTS=homepage.local
-    env_file:
-      - .env
     volumes:
       - ./config/homepage:/config
     expose:
