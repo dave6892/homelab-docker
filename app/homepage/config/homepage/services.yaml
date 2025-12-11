@@ -5,7 +5,7 @@
 - Media:
     - Plex:
         icon: plex.png
-        href: ${PLEX_SERVER_URL}
+        href: https://plex.home
         description: Watch movies and TV shows.
         server: localhost
         container: plex
@@ -19,14 +19,14 @@
 
 - Server:
     - Proxmox:
-        href: ${PROXMOX_SERVER_URL}
+        href: https://proxmox.home
         description: Homepage is the best
 
     - TrueNAS:
-        href: ${TRUENAS_SERVER_URL}
+        href: https://truenas.home
         description: Homepage is the best
 
     - Unraid:
-        href: ${UNRAID_SERVER_URL}
+        href: http://unraid.home
         description: Homepage is the best
 
