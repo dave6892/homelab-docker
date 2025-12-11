@@ -43,15 +43,15 @@ Add the following to your `/etc/hosts` file:
 
 ```bash
 # Run this command to append the entries
-echo "127.0.0.1 homepage.local plex.local tautulli.local pihole.local" | sudo tee -a /etc/hosts
+echo "127.0.0.1 homepage.home plex.home tautulli.home pihole.home" | sudo tee -a /etc/hosts
 ```
 
 ### 4. Verify the Setup
 Open your browser and test the local domains:
 
--   **Homepage**: [http://homepage.local](http://homepage.local)
--   **Plex**: [http://plex.local](http://plex.local)
--   **Tautulli**: [http://tautulli.local](http://tautulli.local)
+-   **Homepage**: [http://homepage.home](http://homepage.home)
+-   **Plex**: [http://plex.home](http://plex.home)
+-   **Tautulli**: [http://tautulli.home](http://tautulli.home)
 -   **Traefik Dashboard**: [http://localhost:8080](http://localhost:8080)
 
 If these load, your Traefik routing and application configurations are correct!
@@ -67,7 +67,7 @@ To test that the Pi-hole *container* works (without using it for actual DNS):
     # Maps container port 53 to host port 5353
     docker-compose run -p 5353:53/tcp -p 5353:53/udp --service-ports -d pihole
     ```
-3.  Access the UI at: [http://pihole.local/admin](http://pihole.local/admin)
+3.  Access the UI at: [http://pihole.home/admin](http://pihole.home/admin)
 
 ## Cleanup
 When you are done testing, you can stop everything to free up resources.

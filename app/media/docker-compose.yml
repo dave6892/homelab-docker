@@ -14,7 +14,7 @@ services:
       - 32400
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.plex.rule=Host(`plex.local`)"
+      - "traefik.http.routers.plex.rule=Host(`plex.home`)"
       - "traefik.http.routers.plex.entrypoints=web"
       - "traefik.http.services.plex.loadbalancer.server.port=32400"
     networks:
@@ -36,7 +36,7 @@ services:
       - 8181
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.tautulli.rule=Host(`tautulli.local`)"
+      - "traefik.http.routers.tautulli.rule=Host(`tautulli.home`)"
       - "traefik.http.routers.tautulli.entrypoints=web"
       - "traefik.http.services.tautulli.loadbalancer.server.port=8181"
     networks:

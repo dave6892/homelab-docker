@@ -14,7 +14,7 @@ services:
       - "8053:80/tcp"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.pihole.rule=Host(`pihole.local`)"
+      - "traefik.http.routers.pihole.rule=Host(`pihole.home`)"
       - "traefik.http.routers.pihole.entrypoints=web"
       - "traefik.http.services.pihole.loadbalancer.server.port=80"
     networks:

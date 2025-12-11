@@ -4,14 +4,14 @@ services:
     container_name: homepage
     environment:
       - TZ=America/Toronto
-      - HOMEPAGE_ALLOWED_HOSTS=homepage.local
+      - HOMEPAGE_ALLOWED_HOSTS=homepage.home
     volumes:
       - ./config/homepage:/config
     expose:
       - 3000
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.homepage.rule=Host(`homepage.local`)"
+      - "traefik.http.routers.homepage.rule=Host(`homepage.home`)"
       - "traefik.http.routers.homepage.entrypoints=web"
       - "traefik.http.services.homepage.loadbalancer.server.port=3000"
     networks:
