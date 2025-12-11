@@ -3,3 +3,5 @@ app/media/data
 app/homepage/config/homepage/logs
 app/pihole/etc-pihole
 .env
+traefik/certs/*.crt
+traefik/certs/*.key

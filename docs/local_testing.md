@@ -17,15 +17,32 @@ Since we cannot easily run a production DNS server (Pi-hole) on a development ma
 
 ## Step-by-Step Instructions
 
-### 1. Start the Network & Proxy
-First, we need to create the shared network and start the Traefik proxy.
+### 1. Generate SSL Certificates
+First, generate self-signed certificates for HTTPS:
+
+```bash
+# From the root of the repo
+cd traefik
+./generate-certs.sh
+cd ..
+```
+
+**Install the certificate in your system** to avoid browser warnings:
+```bash
+# macOS
+open traefik/certs/homelab.crt
+# In Keychain Access, find the certificate and set it to "Always Trust"
+```
+
+### 2. Start the Network & Proxy
+Start the Traefik proxy with HTTPS support:
 
 ```bash
 # Start Traefik (from the root of the repo)
 docker-compose up -d
 ```
 
-### 2. Start the Applications
+### 3. Start the Applications
 Start the application stacks you want to test.
 
 ```bash
@@ -36,7 +53,7 @@ docker-compose -f app/homepage/docker-compose.yml up -d
 docker-compose -f app/media/docker-compose.yml up -d
 ```
 
-### 3. Simulate DNS Resolution
+### 4. Simulate DNS Resolution
 Since Pi-hole isn't active as your computer's DNS server, you must manually map the domains to your local machine (`127.0.0.1`).
 
 Add the following to your `/etc/hosts` file:
@@ -46,17 +63,17 @@ Add the following to your `/etc/hosts` file:
 echo "127.0.0.1 homepage.home plex.home tautulli.home pihole.home" | sudo tee -a /etc/hosts
 ```
 
-### 4. Verify the Setup
-Open your browser and test the local domains:
+### 5. Verify the Setup
+Open your browser and test the local domains with HTTPS:
 
--   **Homepage**: [http://homepage.home](http://homepage.home)
--   **Plex**: [http://plex.home](http://plex.home)
--   **Tautulli**: [http://tautulli.home](http://tautulli.home)
+-   **Homepage**: [https://homepage.home](https://homepage.home)
+-   **Plex**: [https://plex.home](https://plex.home)
+-   **Tautulli**: [https://tautulli.home](https://tautulli.home)
 -   **Traefik Dashboard**: [http://localhost:8080](http://localhost:8080)
 
-If these load, your Traefik routing and application configurations are correct!
+HTTP URLs will automatically redirect to HTTPS. If you see certificate warnings, ensure you've installed and trusted the certificate in your system.
 
-### 5. Testing Pi-hole (Optional)
+### 6. Testing Pi-hole (Optional)
 Testing Pi-hole locally is tricky because port 53 is often in use by the system.
 
 To test that the Pi-hole *container* works (without using it for actual DNS):
@@ -67,7 +84,7 @@ To test that the Pi-hole *container* works (without using it for actual DNS):
     # Maps container port 53 to host port 5353
     docker-compose run -p 5353:53/tcp -p 5353:53/udp --service-ports -d pihole
     ```
-3.  Access the UI at: [http://pihole.home/admin](http://pihole.home/admin)
+3.  Access the UI at: [https://pihole.home/admin](https://pihole.home/admin)
 
 ## Cleanup
 When you are done testing, you can stop everything to free up resources.

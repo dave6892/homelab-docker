@@ -1,0 +1,9 @@
+tls:
+  certificates:
+    - certFile: /certs/homelab.crt
+      keyFile: /certs/homelab.key
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /certs/homelab.crt
+        keyFile: /certs/homelab.key

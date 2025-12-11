@@ -4,16 +4,34 @@ A Docker-based homelab setup featuring a dashboard, media server, local DNS, and
 
 ## Architecture
 
-- **Traefik**: Reverse proxy and load balancer (Port 80/443).
+- **Traefik**: Reverse proxy and load balancer with HTTPS (Port 80/443).
 - **Pi-hole**: Local DNS and Ad-blocking (Port 53).
-- **Apps**: Homepage, Plex, Tautulli (Internal ports only).
+- **Apps**: Homepage, Plex, Tautulli (Internal ports only, accessed via HTTPS).
+
+## Prerequisites
+
+### Generate SSL Certificates
+Before deploying, generate self-signed certificates for HTTPS:
+
+```bash
+# On your Proxmox server or local machine
+cd traefik
+./generate-certs.sh
+```
+
+This creates `traefik/certs/homelab.crt` and `traefik/certs/homelab.key` valid for 10 years.
+
+**Important**: After generating certificates, install `traefik/certs/homelab.crt` in your browser/system to avoid security warnings:
+- **macOS**: Open the .crt file, add to Keychain, and set to "Always Trust"
+- **Linux**: `sudo cp traefik/certs/homelab.crt /usr/local/share/ca-certificates/ && sudo update-ca-certificates`
+- **Windows**: Double-click the .crt file and install to "Trusted Root Certification Authorities"
 
 ## Deployment via Portainer
 
 Deploy these stacks in the following order to ensure networks and dependencies are ready.
 
 ### 1. Proxy Stack
-*This stack creates the shared `homelab` network.*
+*This stack creates the shared `homelab` network and handles HTTPS termination.*
 
 - **Name:** `proxy`
 - **Repository URL:** `https://github.com/dave6892/homelab-docker`
