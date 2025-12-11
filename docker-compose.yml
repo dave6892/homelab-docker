@@ -1,11 +1,12 @@
 services:
   traefik:
-    image: traefik:v2.10
+    image: traefik:latest
     container_name: traefik
     command:
       - "--api.insecure=true"
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.network=homelab"
       - "--entrypoints.web.address=:80"
     ports:
       - "80:80"
