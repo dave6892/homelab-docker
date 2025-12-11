@@ -1,4 +1,5 @@
 app/media/config
 app/media/data
 app/homepage/config/homepage/logs
+app/pihole/etc-pihole
 .env

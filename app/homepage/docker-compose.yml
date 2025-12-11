@@ -3,8 +3,6 @@ services:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
     environment:
-      - PUID=1000
-      - PGID=1000
       - TZ=America/Toronto
       - HOMEPAGE_ALLOWED_HOSTS=homepage.local
     volumes:
