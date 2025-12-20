@@ -1,0 +1,15 @@
+http:
+  routers:
+    proxmox:
+      rule: "Host(`proxmox.home`)"
+      service: proxmox-service
+      entryPoints:
+        - websecure
+      tls: true
+
+  services:
+    proxmox-service:
+      loadBalancer:
+        servers:
+          - url: "https://192.168.1.39:8006" # The actual IP of the other server
+        passHostHeader: true
