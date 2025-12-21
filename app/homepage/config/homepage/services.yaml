@@ -64,6 +64,10 @@
         icon: unraid.png
         href: "{{HOMEPAGE_VAR_UNRAID_URL}}"
         description: unraid
+        widget:
+            type: unraid
+            url: "{{HOMEPAGE_VAR_UNRAID_URL}}"
+            key: "{{HOMEPAGE_VAR_UNRAID_API_KEY}}"
 
 - Network:
     - UniFi:
