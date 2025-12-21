@@ -4,15 +4,26 @@
 
 - Developer:
     - Github:
-        - abbr: GH
+        - icon: github.svg
+          abbr: GH
           href: https://github.com/dave6892
+    - Gitlab:
+        - icon: gitlab.svg
+          abbr: GL
+          href: https://gitlab.com/dave6892
 
 - Social:
+    - Bluesky:
+        - icon: bluesky.svg
+          abbr: BL
+          href: https://bsky.app/
     - Reddit:
-        - abbr: RE
+        - icon: reddit.svg
+          abbr: RE
           href: https://reddit.com/
 
 - Entertainment:
     - YouTube:
-        - abbr: YT
+        - icon: youtube.svg
+          abbr: YT
           href: https://youtube.com/

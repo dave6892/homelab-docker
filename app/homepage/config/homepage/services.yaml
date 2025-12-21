@@ -2,31 +2,82 @@
 # For configuration options and examples, please see:
 # https://gethomepage.dev/configs/services/
 
+- Containers:
+  - Portainer:
+        icon: portainer.svg
+        href: "{{HOMEPAGE_VAR_PORTAINER_URL}}"
+        description: Manage your containers
+        widget: #TODO: fix the widgets
+            type: portainer
+            url: "{{HOMEPAGE_VAR_PORTAINER_API_URL}}"
+            env: 2
+            key: "{{HOMEPAGE_VAR_PORTAINER_API_KEY}}"
+
+- Server:
+    - Proxmox:
+        icon: proxmox.png
+        href: "{{HOMEPAGE_VAR_PROXMOX_URL}}"
+        description: proxmox
+        widget:
+            type: proxmox
+            url: "{{HOMEPAGE_VAR_PROXMOX_URL}}"
+            username:  "{{HOMEPAGE_VAR_PROXMOX_USER}}"
+            password:  "{{HOMEPAGE_VAR_PROXMOX_API_KEY}}"
+            node: kizashi
+
+- DNS:
+    - Pi-Hole:
+        icon: pi-hole.svg
+        href: "{{HOMEPAGE_VAR_PIHOLE_URL}}"
+        description: pi-hole
+        widget:
+            type: pihole
+            url: "{{HOMEPAGE_VAR_PIHOLE_URL}}"
+            key: "{{HOMEPAGE_VAR_PIHOLE_API_KEY}}"
+
 - Media:
     - Plex:
         icon: plex.png
-        href: https://plex.home
+        href: "{{HOMEPAGE_VAR_PLEX_URL}}"
         description: Watch movies and TV shows.
         server: localhost
         container: plex
         widgets: #TODO: fix the widgets
         - type: tautulli
-          url: ${TAUTULLI_SERVER_URL}
-          key: ${TAUTULLI_API_KEY}
+          url: "{{HOMEPAGE_VAR_TAUTULLI_URL}}"
+          key: "{{HOMEPAGE_VAR_TAUTULLI_KEY}}"
         - type: uptimekuma
-          url: ${UPTIMEKUMA_SERVER_URL}
-          slug: ${UPTIMEKUMA_SLUG}
+          url: "{{HOMEPAGE_VAR_UPTIMEKUMA_URL}}"
+          slug: "{{HOMEPAGE_VAR_UPTIMEKUMA_SLUG}}"
 
-- Server:
-    - Proxmox:
-        href: https://proxmox.home
-        description: Homepage is the best
-
+- Storage:
     - TrueNAS:
-        href: https://truenas.home
-        description: Homepage is the best
+        icon: truenas.svg
+        href: "{{HOMEPAGE_VAR_TRUENAS_URL}}"
+        description: truenas
+        widget:
+            type: truenas
+            url: "{{HOMEPAGE_VAR_TRUENAS_URL}}"
+            key: "{{HOMEPAGE_VAR_TRUENAS_API_KEY}}"
 
     - Unraid:
-        href: http://unraid.home
-        description: Homepage is the best
+        icon: unraid.png
+        href: "{{HOMEPAGE_VAR_UNRAID_URL}}"
+        description: unraid
 
+- Network:
+    - UniFi:
+        icon: unifi.svg
+        href: "{{HOMEPAGE_VAR_UNIFI_NETWORK_URL}}"
+        description: network
+        widget:
+            type: unifi
+            url: "{{HOMEPAGE_VAR_UNIFI_NETWORK_URL}}"
+            username:  "{{HOMEPAGE_VAR_UNIFI_NETWORK_USERNAME}}"
+            password:  "{{HOMEPAGE_VAR_UNIFI_NETWORK_PASSWORD}}"
+
+- Developer:
+    - Infisical:
+        icon: infisical.svg
+        href: "{{HOMEPAGE_VAR_INFISICAL_URL}}"
+        description: infisical

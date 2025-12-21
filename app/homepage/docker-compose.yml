@@ -2,13 +2,16 @@ services:
   homepage:
     image: ghcr.io/gethomepage/homepage:latest
     container_name: homepage
+    env_file:
+      - .env
     environment:
-      - TZ=America/Toronto
-      - HOMEPAGE_ALLOWED_HOSTS=homepage.home
+      PUID: $PUID
+      PGID: $PGID
+      TZ: "America/Toronto"
     volumes:
       - ./config/homepage:/config
-    expose:
-      - 3000
+    ports:
+      - 3000:3000
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.homepage.rule=Host(`homepage.home`)"

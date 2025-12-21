@@ -1,7 +1,46 @@
 ---
 # For configuration options and examples, please see:
 # https://gethomepage.dev/configs/settings/
+title: dave6892 Homepage
 
 providers:
   openweathermap: openweathermapapikey
   weatherapi: weatherapiapikey
+
+background:
+  image: https://wallpaperaccess.com/full/3187973.jpg
+  blur: sm # sm, md, xl... see https://tailwindcss.com/docs/backdrop-blur
+  saturate: 100 # 0, 50, 100... see https://tailwindcss.com/docs/backdrop-saturate
+  brightness: 50 # 0, 50, 75... see https://tailwindcss.com/docs/backdrop-brightness
+  opacity: 100 # 0-100
+
+theme: dark
+color: slate
+
+useEqualHeights: true
+
+layout:
+  Containers:
+    header: true
+    style: row
+    columns: 4
+  Server:
+    header: true
+    style: row
+    columns: 4
+  Media:
+    header: true
+    style: row
+    columns: 4
+  Storage:
+    header: true
+    style: row
+    columns: 4
+  DNS:
+    header: true
+    style: row
+    columns: 4
+  Network:
+    header: true
+    style: row
+    columns: 4
