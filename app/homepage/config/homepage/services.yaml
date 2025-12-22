@@ -81,6 +81,11 @@
             password:  "{{HOMEPAGE_VAR_UNIFI_NETWORK_PASSWORD}}"
 
 - Developer:
+    - Gitlab:
+        icon: gitlab.svg
+        href: "{{HOMEPAGE_VAR_GITLAB_URL}}"
+        description: gitlab
+
     - Infisical:
         icon: infisical.svg
         href: "{{HOMEPAGE_VAR_INFISICAL_URL}}"
