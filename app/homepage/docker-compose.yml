@@ -38,7 +38,7 @@ services:
       - "traefik.http.routers.homepage-http.rule=Host(`homepage.localhost`)"
       # - "traefik.http.routers.homepage-http.entrypoints=web"
       - "traefik.http.routers.homepage-http.entrypoints=websecure"
-      - "traefik.http.routers.homepage.tls=true"
+      - "traefik.http.routers.homepage-http.tls=true"
       - "traefik.http.services.homepage.loadbalancer.server.port=3000"
     networks:
       - homelab
