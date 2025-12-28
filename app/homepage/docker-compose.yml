@@ -5,8 +5,8 @@ services:
     # env_file:
     #   - stack.env
     environment:
-      PUID: $PUID
-      PGID: $PGID
+      PUID: 1000
+      PGID: 1000
       TZ: "America/Toronto"
       HOMEPAGE_ALLOWED_HOSTS: "*"
       HOMEPAGE_VAR_PORTAINER_URL: $HOMEPAGE_VAR_PORTAINER_URL
@@ -31,12 +31,13 @@ services:
       HOMEPAGE_VAR_GITLAB_URL: $HOMEPAGE_VAR_GITLAB_URL
     volumes:
       - ./config/homepage:/config
-    ports:
-      - 3000:3000
+    expose:
+      - 3000
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.homepage.rule=Host(`homepage.home`)"
-      - "traefik.http.routers.homepage.entrypoints=websecure"
+      - "traefik.http.routers.homepage-http.rule=Host(`homepage.localhost`)"
+      # - "traefik.http.routers.homepage-http.entrypoints=web"
+      - "traefik.http.routers.homepage-http.entrypoints=websecure"
       - "traefik.http.routers.homepage.tls=true"
       - "traefik.http.services.homepage.loadbalancer.server.port=3000"
     networks:
